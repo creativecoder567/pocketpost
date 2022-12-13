@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pocketpost/pages/edit_message.dart';
+import 'package:pocketpost/provider/PaymentlistProvider.dart';
 import 'package:pocketpost/provider/posts_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider<PostsProvider>(
               create: (context) => PostsProvider()),
+          ChangeNotifierProvider<PaymentListProvider>(create: (context)=>PaymentListProvider()),
         ],
         builder: (context, _) {
           return MaterialApp(
@@ -46,7 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<PostsProvider>().getPosts();
+    // context.read<PostsProvider>().getPosts();
+    context.read<PaymentListProvider>().getItems();
   }
 
   @override
@@ -60,17 +63,17 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ...context
-                .watch<PostsProvider>()
-                .posts
-                .map((post) => ListTile(
-                      title: Text(post.title),
-                      subtitle: Text(post.id),
+                .watch<PaymentListProvider>()
+                .items
+                .map((item) => ListTile(
+                      title: Text(item.payby),
+                      subtitle: Text(item.receivergets),
                       leading: Icon(Icons.message),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           InkWell(child: Icon(Icons.edit, color: Colors.green,), onTap:(){
-                            Navigator.push(context, MaterialPageRoute(builder: (_) => EditMessagePage(post: post)));
+                            // Navigator.push(context, MaterialPageRoute(builder: (_) => EditMessagePage(post: post)));
                           }),
                           VerticalDivider(),
                           InkWell(child: Icon(Icons.delete, color: Colors.red,), onTap:(){
@@ -83,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     Navigator.pop(contextDialog);
                                   }, child: Text("Cancelar")),
                                   TextButton(onPressed: (){
-                                    context.read<PostsProvider>().deletePostPobketBase(post.id);
+                                    // context.read<PostsProvider>().deletePostPobketBase(post.id);
                                     Navigator.pop(contextDialog);
                                   }, child: Text("Confirmar"))
                                 ],

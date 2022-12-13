@@ -36,6 +36,7 @@ class PostsProvider with ChangeNotifier{
     result.map((post) {
       post.data['id'] = post.id;
       Post _post = Post.fromJson(post.data);
+      print(_post);
       addPost(_post);
     }).toList();
     notifyListeners();
